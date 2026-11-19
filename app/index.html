@@ -3,23 +3,126 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Ledger — GTA VI Trophy Guide &amp; Tracker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">
+      <h1>Leonida Ledger</h1>
+      <p class="tagline">The offline trophy guide &amp; tracker for Grand Theft Auto VI on PlayStation 5 — all 55 trophies: 1 platinum, 2 gold, 6 silver, 46 bronze.</p>
+    </div>
+    <div class="scoreboard" aria-label="Progress summary">
+      <div class="score-big"><span id="earned-count">0</span><span class="score-of">/ 55</span></div>
+      <div class="score-sub">trophies earned</div>
+      <div class="score-bar"><div id="score-fill"></div></div>
+      <div class="score-grades" id="score-grades"></div>
+    </div>
+  </div>
+  <nav class="tabs" aria-label="Views">
+    <button type="button" class="tab is-active" data-view="checklist">Checklist &amp; guides</button>
+    <button type="button" class="tab" data-view="roadmap">Platinum roadmap</button>
+    <button type="button" class="tab" data-view="missables">Missables watch</button>
+    <button type="button" class="tab" data-view="save">Save &amp; settings</button>
+  </nav>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+
+<main>
+  <section id="view-checklist" class="view is-active">
+    <div class="toolbar">
+      <label class="search-box">Search
+        <input id="search" type="search" placeholder="Trophy name or keyword…" autocomplete="off">
+      </label>
+      <label>Grade
+        <select id="filter-grade">
+          <option value="all">All grades</option>
+          <option value="platinum">Platinum</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
+        </select>
+      </label>
+      <label>Kind
+        <select id="filter-kind">
+          <option value="all">All kinds</option>
+          <option value="story">Story</option>
+          <option value="strangers">Strangers &amp; side strands</option>
+          <option value="activities">Activities</option>
+          <option value="collectibles">Collectibles</option>
+          <option value="crimes">Crimes &amp; robberies</option>
+          <option value="exploration">Exploration</option>
+          <option value="money">Money</option>
+          <option value="misc">Miscellaneous</option>
+          <option value="platinum">Platinum &amp; 100%</option>
+        </select>
+      </label>
+      <label>Status
+        <select id="filter-status">
+          <option value="all">All</option>
+          <option value="earned">Earned</option>
+          <option value="missing">Missing</option>
+        </select>
+      </label>
+      <label class="check"><input id="filter-missable" type="checkbox"> Missable only</label>
+      <label class="check"><input id="filter-hidden" type="checkbox"> Hidden only</label>
+      <label class="check spoiler"><input id="spoiler-toggle" type="checkbox"> Spoiler shield: hide story trophies until earned</label>
+    </div>
+    <p class="result-count" id="result-count"></p>
+    <p class="result-count">Tip: press <kbd>/</kbd> to jump to search, click any row to open its guide, and use the − / + counters on counted trophies (250 stunts, 100 WAiNK scans, $250,000 laundered…).</p>
+    <div class="split">
+      <div class="list-pane">
+        <table class="trophy-table">
+          <thead><tr><th scope="col">Earned</th><th scope="col">Trophy</th><th scope="col">Grade</th><th scope="col">Progress</th></tr></thead>
+          <tbody id="trophy-rows"></tbody>
+        </table>
+        <p class="empty-note" id="empty-note" hidden>No trophies match those filters. Try clearing the search or picking a different kind.</p>
+      </div>
+      <aside class="detail-pane" id="detail-pane" aria-label="Trophy guide">
+        <p class="detail-hint">Pick a trophy on the left to read its full guide here — what to do, where to start, and the sources behind each fact.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="view-roadmap" class="view">
+    <h2>Platinum roadmap</h2>
+    <p class="lede">One playthrough, no online trophies, roughly 200 hours. Work the stages in order and the platinum takes care of itself. Built from the official trophy descriptions and the in-game 100% checklist quotas.</p>
+    <div id="roadmap-stages"></div>
+  </section>
+
+  <section id="view-missables" class="view">
+    <h2>Missables watch</h2>
+    <p class="lede">GTA VI has no mission replay and no New Game Plus, so a missed moment can mean a second playthrough. One trophy is currently flagged as potentially missable; the rest of this page is the save discipline that keeps you safe either way.</p>
+    <div id="missable-list"></div>
+    <div class="save-rules">
+      <h3>The save habit that protects the platinum</h3>
+      <ul>
+        <li>Keep a manual save at the start of every chapter — you have 15 slots, use them.</li>
+        <li>Save before the final mission, and before any big heist or vault job.</li>
+        <li>Never turn on a cheat: cheats disable trophies (and saving) while active.</li>
+        <li>Do Lucia's Chapter 1 balcony meditation before the chapter ends (see Positive Mental Attitude).</li>
+        <li>Free roam continues after the story, so cleanup is safe — the risk is only inside chapters.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="view-save" class="view">
+    <h2>Save &amp; settings</h2>
+    <p class="lede">Your ticks and counters live in this browser's localStorage. Export them to a file to back them up or move them to another machine; import brings them back. Everything works offline.</p>
+    <div class="save-actions">
+      <button type="button" id="export-btn">Export progress (JSON)</button>
+      <label class="import-label">Import progress <input id="import-file" type="file" accept="application/json"></label>
+      <button type="button" id="reset-btn" class="danger">Reset all progress</button>
+    </div>
+    <p class="save-status" id="save-status" role="status"></p>
+    <h3>About this guide</h3>
+    <p>Trophy names, descriptions and grades are the official PlayStation 5 list as published on PlayStation Network (via Exophase, cross-checked with PSNProfiles, 18 Nov 2026): 55 trophies — 1 platinum, 2 gold, 6 silver, 46 bronze, 28 hidden until earned. Every guide is written for this project in our own words, and each one names its sources. Where a hidden trophy's method is still unconfirmed at launch, the guide says so instead of guessing. No Rockstar artwork or logos are used.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Leonida Ledger — an offline, open-source GTA VI trophy guide. Progress is stored only in your browser.</p>
+</footer>
 <script type="module" src="app.js"></script>
 </body>
 </html>
